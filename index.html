@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A/L Flashcards — Physics & Chemistry | Sri Lanka</title>
+  <meta name="description" content="Free flashcards for Sri Lankan A/Level students studying Physics and Chemistry in the Maths and Bio streams." />
+  <meta name="theme-color" content="#0a0e1a" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Favicon (inline SVG emoji) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚛️</text></svg>" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <a class="logo" href="#" onclick="goHome(); return false;">
+      <div class="logo-icon">🎓</div>
+      <div class="logo-stack">
+        <span class="logo-name">A/L Flashcards</span>
+        <span class="logo-sub">Sri Lanka • Physics & Chemistry</span>
+      </div>
+    </a>
+
+    <nav>
+      <button class="nav-btn" data-key="physics" onclick="openSubject('physics')">⚛️ Physics</button>
+      <button class="nav-btn amber" data-key="chemistry" onclick="openSubject('chemistry')">🧪 Chemistry</button>
+    </nav>
+  </header>
+
+  <!-- ── App shell ── -->
+  <div class="app-shell">
+
+    <!-- Sidebar: topic tree -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Populated by JS -->
+    </aside>
+
+    <!-- Main content area -->
+    <main id="main">
+      <!-- Populated by JS -->
+    </main>
+
+  </div>
+
+  <!-- Data & App scripts -->
+  <script src="data/flashcards.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
