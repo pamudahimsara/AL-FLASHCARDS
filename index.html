@@ -4,55 +4,1155 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>A/L Flashcards — Physics & Chemistry | Sri Lanka</title>
-  <meta name="description" content="Free flashcards for Sri Lankan A/Level students studying Physics and Chemistry in the Maths and Bio streams." />
-  <meta name="theme-color" content="#0a0e1a" />
-
-  <!-- Fonts -->
+  <meta name="description" content="Free flashcards for Sri Lankan A/Level students studying Physics and Chemistry." />
+  <meta name="theme-color" content="#060913" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="css/style.css" />
-
-  <!-- Favicon (inline SVG emoji) -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚛️</text></svg>" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:          #060913;
+      --bg1:         #0d1526;
+      --bg2:         #121d33;
+      --bg3:         #1a2844;
+
+      --blue:        #4facfe;
+      --blue2:       #00f2fe;
+      --blue-dim:    rgba(79,172,254,.12);
+      --blue-border: rgba(79,172,254,.28);
+
+      --amber:       #f7b733;
+      --amber2:      #fc4a1a;
+      --amber-dim:   rgba(247,183,51,.12);
+      --amber-border:rgba(247,183,51,.28);
+
+      --green:       #2ecc71;
+      --red:         #ff5f6d;
+      --purple:      #a78bfa;
+
+      --text:        #eef2ff;
+      --text2:       #94a3b8;
+      --text3:       #475569;
+      --border:      rgba(255,255,255,.07);
+      --border2:     rgba(255,255,255,.13);
+
+      --r:   14px;
+      --r-sm: 8px;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── ANIMATED BACKGROUND ─────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(79,172,254,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 85% 75%, rgba(247,183,51,.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── HEADER ──────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      background: rgba(6, 9, 19, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-gem {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      box-shadow: 0 0 16px rgba(79,172,254,.35);
+      flex-shrink: 0;
+    }
+
+    .logo-text { line-height: 1; }
+    .logo-name {
+      font-size: .92rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+    .logo-sub {
+      font-size: .62rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    nav { display: flex; gap: .5rem; }
+
+    .nav-pill {
+      padding: .35rem .9rem;
+      border-radius: 20px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--text2);
+      font-family: var(--sans);
+      font-size: .78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .nav-pill:hover, .nav-pill.active {
+      border-color: var(--blue-border);
+      color: var(--blue);
+      background: var(--blue-dim);
+    }
+    .nav-pill.chem:hover, .nav-pill.chem.active {
+      border-color: var(--amber-border);
+      color: var(--amber);
+      background: var(--amber-dim);
+    }
+
+    /* ─── SHELL ───────────────────────────────────────────── */
+    .shell {
+      display: grid;
+      grid-template-columns: 256px 1fr;
+      min-height: calc(100vh - 58px);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── SIDEBAR ─────────────────────────────────────────── */
+    .sidebar {
+      background: var(--bg1);
+      border-right: 1px solid var(--border);
+      position: sticky;
+      top: 58px;
+      height: calc(100vh - 58px);
+      overflow-y: auto;
+      padding: 1.25rem .75rem;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+    .sb-subj-hd {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: .45rem .65rem;
+      border-radius: var(--r-sm);
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      cursor: pointer;
+      margin-bottom: .2rem;
+      transition: background .15s;
+    }
+    .sb-subj-hd.physics { color: var(--blue); }
+    .sb-subj-hd.chemistry { color: var(--amber); }
+    .sb-subj-hd:hover { background: var(--bg2); }
+
+    .sb-topic-title {
+      padding: .32rem .65rem .32rem 1.6rem;
+      font-size: .72rem;
+      color: var(--text2);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin: .4rem 0 .15rem;
+    }
+
+    .sb-sub {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .3rem .65rem .3rem 2.1rem;
+      font-size: .75rem;
+      color: var(--text3);
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .sb-sub:hover { color: var(--text2); background: var(--bg2); }
+    .sb-sub.active { color: var(--blue); background: var(--blue-dim); }
+    .sb-sub.active.chem { color: var(--amber); background: var(--amber-dim); }
+
+    .sb-count {
+      font-size: .62rem;
+      font-family: var(--mono);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1px 7px;
+      color: var(--text3);
+      flex-shrink: 0;
+    }
+
+    .sb-hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: .85rem .5rem;
+    }
+
+    /* ─── MAIN ────────────────────────────────────────────── */
+    main {
+      padding: 2.5rem 2rem;
+      overflow-y: auto;
+    }
+
+    /* ─── HOME ────────────────────────────────────────────── */
+    .home-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .home-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--blue);
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
+      border-radius: 20px;
+      padding: .3rem .85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .home-h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1.08;
+      margin-bottom: 1rem;
+    }
+
+    .home-h1 .hl-blue {
+      background: linear-gradient(90deg, var(--blue), var(--blue2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .home-h1 .hl-amber {
+      background: linear-gradient(90deg, var(--amber), var(--amber2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .home-sub {
+      color: var(--text2);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+    }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .subj-card {
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.75rem 1.5rem;
+      cursor: pointer;
+      transition: all .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .subj-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .25s;
+      border-radius: var(--r);
+    }
+    .subj-card.phys::after { background: radial-gradient(ellipse at 30% 30%, var(--blue-dim), transparent 70%); }
+    .subj-card.chem::after { background: radial-gradient(ellipse at 30% 30%, var(--amber-dim), transparent 70%); }
+    .subj-card:hover::after { opacity: 1; }
+
+    .subj-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-3px);
+    }
+    .subj-card.phys:hover { box-shadow: 0 12px 40px rgba(79,172,254,.15); }
+    .subj-card.chem:hover { box-shadow: 0 12px 40px rgba(247,183,51,.12); }
+
+    .subj-stripe {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--r) var(--r) 0 0;
+    }
+    .phys .subj-stripe { background: linear-gradient(90deg, var(--blue), var(--blue2)); }
+    .chem .subj-stripe { background: linear-gradient(90deg, var(--amber), var(--amber2)); }
+
+    .subj-icon {
+      font-size: 2.2rem;
+      margin-bottom: .85rem;
+      display: block;
+    }
+
+    .subj-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: .35rem;
+    }
+    .phys h2 { color: var(--blue); }
+    .chem h2 { color: var(--amber); }
+
+    .subj-card p {
+      font-size: .8rem;
+      color: var(--text2);
+      line-height: 1.55;
+      margin-bottom: 1.1rem;
+    }
+
+    .subj-stats {
+      display: flex;
+      gap: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat { font-size: .72rem; color: var(--text2); }
+    .stat strong {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .feature-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+    }
+
+    .feat-chip {
+      font-size: .75rem;
+      color: var(--text2);
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: .35rem .9rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ─── SUBJECT OVERVIEW ────────────────────────────────── */
+    .area {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .73rem;
+      color: var(--text3);
+      margin-bottom: 1rem;
+    }
+    .breadcrumb .bc-link {
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .breadcrumb .bc-link:hover { color: var(--text2); }
+    .breadcrumb .sep { color: var(--text3); }
+
+    .area-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -.025em;
+      margin-bottom: .35rem;
+    }
+    .area-desc {
+      font-size: .84rem;
+      color: var(--text2);
+      margin-bottom: 2rem;
+    }
+
+    .topic-group { margin-bottom: 2rem; }
+
+    .topic-label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: .45rem 0;
+      margin-bottom: .75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .topic-label.physics { color: var(--blue); }
+    .topic-label.chemistry { color: var(--amber); }
+
+    .subtopic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: .75rem;
+    }
+
+    .sub-tile {
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 1rem 1.1rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .sub-tile:hover {
+      background: var(--bg2);
+      border-color: var(--border2);
+      transform: translateY(-1px);
+    }
+    .sub-tile.physics:hover { border-color: var(--blue-border); }
+    .sub-tile.chemistry:hover { border-color: var(--amber-border); }
+
+    .sub-tile h4 {
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+    .sub-tile p { font-size: .72rem; color: var(--text3); }
+
+    /* ─── STUDY MODE ──────────────────────────────────────── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .76rem;
+      color: var(--text2);
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle-wrap input { display: none; }
+    .toggle-track {
+      width: 34px;
+      height: 19px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      position: relative;
+      transition: background .2s;
+    }
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      width: 13px;
+      height: 13px;
+      background: var(--text3);
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: transform .2s, background .2s;
+    }
+    .toggle-wrap input:checked + .toggle-track { background: rgba(79,172,254,.3); border-color: var(--blue-border); }
+    .toggle-wrap input:checked + .toggle-track::after { transform: translateX(15px); background: var(--blue); }
+
+    /* Progress */
+    .prog-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .85rem 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    .prog-track {
+      flex: 1;
+      height: 5px;
+      background: var(--bg3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width .4s ease;
+    }
+    .prog-fill.physics { background: linear-gradient(90deg, var(--blue), var(--blue2)); }
+    .prog-fill.chemistry { background: linear-gradient(90deg, var(--amber), var(--amber2)); }
+
+    .prog-label {
+      font-size: .75rem;
+      font-family: var(--mono);
+      color: var(--text2);
+      white-space: nowrap;
+    }
+
+    /* Flip card */
+    .scene {
+      perspective: 1400px;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+      border-radius: var(--r);
+    }
+
+    .flip-card {
+      width: 100%;
+      min-height: 290px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .6s cubic-bezier(.4,0,.2,1);
+    }
+    .flip-card.flipped { transform: rotateX(180deg); }
+
+    .face {
+      position: absolute;
+      width: 100%;
+      min-height: 290px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: var(--r);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .face-front {
+      background: var(--bg1);
+      border: 1px solid var(--border);
+    }
+    .face-front:hover { border-color: var(--border2); }
+
+    .face-back {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      transform: rotateX(180deg);
+    }
+    .face-back.physics { border-color: var(--blue-border); }
+    .face-back.chemistry { border-color: var(--amber-border); }
+
+    .face-back.physics .face-top-bar { background: linear-gradient(90deg, rgba(79,172,254,.18), transparent); }
+    .face-back.chemistry .face-top-bar { background: linear-gradient(90deg, rgba(247,183,51,.15), transparent); }
+
+    .face-top-bar {
+      padding: .85rem 1.5rem .5rem;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .face-front .face-top-bar { color: var(--text3); }
+    .face-back.physics .face-top-bar { color: var(--blue); }
+    .face-back.chemistry .face-top-bar { color: var(--amber); }
+
+    .face-body {
+      flex: 1;
+      padding: .5rem 1.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .face-body p {
+      font-size: 1.15rem;
+      line-height: 1.55;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .face-body.answer {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    .answer-pre {
+      font-family: var(--mono);
+      font-size: .86rem;
+      line-height: 1.85;
+      color: var(--text);
+      white-space: pre-wrap;
+      width: 100%;
+    }
+
+    .flip-hint {
+      padding: .6rem 1.5rem .85rem;
+      font-size: .7rem;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .hint-icon { font-size: .85rem; }
+
+    /* Rating */
+    .rating-panel {
+      display: none;
+      align-items: center;
+      gap: .85rem;
+      flex-wrap: wrap;
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .85rem 1.1rem;
+      margin-bottom: 1.25rem;
+    }
+    .rating-panel.show { display: flex; }
+
+    .rate-lbl { font-size: .75rem; color: var(--text2); white-space: nowrap; }
+    .rate-btns { display: flex; gap: .5rem; }
+
+    .rate-btn {
+      padding: .38rem .9rem;
+      border-radius: 7px;
+      border: 1px solid transparent;
+      font-family: var(--sans);
+      font-size: .76rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .rate-btn:hover { transform: scale(1.05); }
+    .rate-btn.easy   { background: rgba(46,204,113,.15); color: var(--green); border-color: rgba(46,204,113,.3); }
+    .rate-btn.medium { background: rgba(247,183,51,.15); color: var(--amber); border-color: rgba(247,183,51,.3); }
+    .rate-btn.hard   { background: rgba(255,95,109,.15); color: var(--red); border-color: rgba(255,95,109,.3); }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ctrl {
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: .55rem 1.15rem;
+      border-radius: var(--r-sm);
+      font-family: var(--sans);
+      font-size: .8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .ctrl:hover { background: var(--bg2); border-color: var(--border2); color: var(--text); }
+    .ctrl:disabled { opacity: .3; cursor: not-allowed; }
+
+    .ctrl-pos {
+      margin-left: auto;
+      font-size: .76rem;
+      font-family: var(--mono);
+      color: var(--text3);
+    }
+
+    /* Keyboard hint */
+    .kb-hint {
+      font-size: .69rem;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: .25rem;
+    }
+    .kbd {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-family: var(--mono);
+      font-size: .64rem;
+    }
+
+    /* Done screen */
+    .done-screen {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--bg1);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+    }
+    .done-emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .done-screen h3 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -.025em;
+      margin-bottom: .65rem;
+    }
+    .done-screen > p { color: var(--text2); font-size: .9rem; margin-bottom: 2rem; }
+
+    .done-scores {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .done-stat { text-align: center; }
+    .done-stat strong {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .done-stat span {
+      font-size: .74rem;
+      color: var(--text2);
+      margin-top: .25rem;
+      display: block;
+    }
+    .done-stat.easy strong   { color: var(--green); }
+    .done-stat.medium strong { color: var(--amber); }
+    .done-stat.hard strong   { color: var(--red); }
+
+    .done-actions { display: flex; gap: .65rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: .75rem .5rem;
+      }
+      main { padding: 1.25rem 1rem; }
+      .subject-grid { grid-template-columns: 1fr; }
+      .home-h1 { font-size: 2rem; }
+      nav .nav-pill { display: none; }
+      .kb-hint { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ── Header ── -->
   <header>
     <a class="logo" href="#" onclick="goHome(); return false;">
-      <div class="logo-icon">🎓</div>
-      <div class="logo-stack">
-        <span class="logo-name">A/L Flashcards</span>
-        <span class="logo-sub">Sri Lanka • Physics & Chemistry</span>
+      <div class="logo-gem">🎓</div>
+      <div class="logo-text">
+        <div class="logo-name">A/L Flashcards</div>
+        <div class="logo-sub">Sri Lanka · Physics & Chemistry</div>
       </div>
     </a>
-
     <nav>
-      <button class="nav-btn" data-key="physics" onclick="openSubject('physics')">⚛️ Physics</button>
-      <button class="nav-btn amber" data-key="chemistry" onclick="openSubject('chemistry')">🧪 Chemistry</button>
+      <button class="nav-pill" data-key="physics" onclick="openSubject('physics')">⚛️ Physics</button>
+      <button class="nav-pill chem" data-key="chemistry" onclick="openSubject('chemistry')">🧪 Chemistry</button>
     </nav>
   </header>
 
-  <!-- ── App shell ── -->
-  <div class="app-shell">
-
-    <!-- Sidebar: topic tree -->
-    <aside class="sidebar" id="sidebar">
-      <!-- Populated by JS -->
-    </aside>
-
-    <!-- Main content area -->
-    <main id="main">
-      <!-- Populated by JS -->
-    </main>
-
+  <div class="shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main id="main"></main>
   </div>
 
-  <!-- Data & App scripts -->
-  <script src="data/flashcards.js"></script>
-  <script src="js/app.js"></script>
+  <script src="flashcards.js"></script>
+  <script>
+    /* ─── STATE ────────────────────────────────────────────── */
+    const S = {
+      view: 'home', subject: null, topicId: null, subtopicId: null,
+      cards: [], idx: 0, flipped: false, shuffle: false, ratings: {}
+    };
 
+    /* ─── HELPERS ──────────────────────────────────────────── */
+    const getSubtopic = (sk, tid, sid) => {
+      const t = FLASHCARD_DATA[sk].topics.find(t => t.id === tid);
+      return t ? t.subtopics.find(s => s.id === sid) : null;
+    };
+
+    const allCards = sk => {
+      let c = [];
+      FLASHCARD_DATA[sk].topics.forEach(t => t.subtopics.forEach(s => c.push(...s.cards)));
+      return c;
+    };
+
+    const shuffle = arr => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    /* ─── SIDEBAR ──────────────────────────────────────────── */
+    function renderSidebar() {
+      const el = document.getElementById('sidebar');
+      el.innerHTML = '';
+      Object.entries(FLASHCARD_DATA).forEach(([key, subj]) => {
+        const wrap = document.createElement('div');
+
+        const hd = document.createElement('div');
+        hd.className = `sb-subj-hd ${key}`;
+        hd.textContent = `${subj.icon}  ${subj.label}`;
+        hd.onclick = () => openSubject(key);
+        wrap.appendChild(hd);
+
+        subj.topics.forEach(topic => {
+          const tLabel = document.createElement('div');
+          tLabel.className = 'sb-topic-title';
+          tLabel.textContent = topic.title;
+          wrap.appendChild(tLabel);
+
+          topic.subtopics.forEach(sub => {
+            const row = document.createElement('div');
+            row.className = 'sb-sub';
+            row.id = `sb-${key}-${topic.id}-${sub.id}`;
+            row.innerHTML = `<span>${sub.title}</span><span class="sb-count">${sub.cards.length}</span>`;
+            row.onclick = () => openStudy(key, topic.id, sub.id);
+            wrap.appendChild(row);
+          });
+        });
+
+        const hr = document.createElement('hr');
+        hr.className = 'sb-hr';
+        wrap.appendChild(hr);
+        el.appendChild(wrap);
+      });
+      syncSidebar();
+    }
+
+    function syncSidebar() {
+      document.querySelectorAll('.sb-sub').forEach(el => el.classList.remove('active', 'chem'));
+      if (S.subject && S.topicId && S.subtopicId) {
+        const el = document.getElementById(`sb-${S.subject}-${S.topicId}-${S.subtopicId}`);
+        if (el) {
+          el.classList.add('active');
+          if (S.subject === 'chemistry') el.classList.add('chem');
+        }
+      }
+    }
+
+    /* ─── HOME ─────────────────────────────────────────────── */
+    function renderHome() {
+      const main = document.getElementById('main');
+      const cardCount = sk => allCards(sk).length;
+      const topicCount = sk => FLASHCARD_DATA[sk].topics.reduce((n,t) => n + t.subtopics.length, 0);
+
+      main.innerHTML = `
+        <div class="home-wrap">
+          <div class="home-eyebrow">🇱🇰 Sri Lanka A/L Syllabus</div>
+          <h1 class="home-h1">
+            Master <span class="hl-blue">Physics</span><br>
+            &amp; <span class="hl-amber">Chemistry</span>
+          </h1>
+          <p class="home-sub">
+            Smart flashcards built for Sri Lankan Maths &amp; Bio stream students.
+            Flip, rate, and track your way to exam confidence.
+          </p>
+
+          <div class="subject-grid">
+            ${Object.entries(FLASHCARD_DATA).map(([key, subj]) => {
+              const cls = key === 'physics' ? 'phys' : 'chem';
+              const desc = key === 'physics'
+                ? 'Mechanics, Waves, Electricity, Thermal, Quantum & Nuclear'
+                : 'Atomic Structure, Energetics, Kinetics, Equilibrium, Organic & Electrochemistry';
+              return `
+                <div class="subj-card ${cls}" onclick="openSubject('${key}')">
+                  <div class="subj-stripe"></div>
+                  <span class="subj-icon">${subj.icon}</span>
+                  <h2>${subj.label}</h2>
+                  <p>${desc}</p>
+                  <div class="subj-stats">
+                    <div class="stat"><strong>${cardCount(key)}</strong>Cards</div>
+                    <div class="stat"><strong>${topicCount(key)}</strong>Subtopics</div>
+                    <div class="stat"><strong>${subj.topics.length}</strong>Topics</div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="feature-bar">
+            <div class="feat-chip">⌨️ Keyboard shortcuts</div>
+            <div class="feat-chip">🔀 Shuffle mode</div>
+            <div class="feat-chip">🎯 Easy / Medium / Hard rating</div>
+            <div class="feat-chip">📊 Session summary</div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ─── SUBJECT OVERVIEW ─────────────────────────────────── */
+    function renderSubjectOverview(sk) {
+      const subj = FLASHCARD_DATA[sk];
+      const total = allCards(sk).length;
+      const main = document.getElementById('main');
+
+      main.innerHTML = `
+        <div class="area">
+          <div class="breadcrumb">
+            <span class="bc-link" onclick="goHome()">Home</span>
+            <span class="sep">/</span>
+            <span>${subj.label}</span>
+          </div>
+          <div class="area-title">${subj.icon} ${subj.label}</div>
+          <div class="area-desc">${total} flashcards across ${subj.topics.length} topics — pick a subtopic to study</div>
+
+          ${subj.topics.map(topic => `
+            <div class="topic-group">
+              <div class="topic-label ${sk}">${topic.title}</div>
+              <div class="subtopic-grid">
+                ${topic.subtopics.map(sub => `
+                  <div class="sub-tile ${sk}" onclick="openStudy('${sk}','${topic.id}','${sub.id}')">
+                    <h4>${sub.title}</h4>
+                    <p>${sub.cards.length} card${sub.cards.length !== 1 ? 's' : ''}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* ─── STUDY ─────────────────────────────────────────────── */
+    function renderStudy() {
+      const main = document.getElementById('main');
+      const subj = FLASHCARD_DATA[S.subject];
+      const colorCls = S.subject;
+      const total = S.cards.length;
+
+      if (S.idx >= total) {
+        const easy   = Object.values(S.ratings).filter(r => r === 'easy').length;
+        const medium = Object.values(S.ratings).filter(r => r === 'medium').length;
+        const hard   = Object.values(S.ratings).filter(r => r === 'hard').length;
+        const sub = getSubtopic(S.subject, S.topicId, S.subtopicId);
+
+        main.innerHTML = `
+          <div class="area">
+            <div class="breadcrumb">
+              <span class="bc-link" onclick="goHome()">Home</span>
+              <span class="sep">/</span>
+              <span class="bc-link" onclick="openSubject('${S.subject}')">${subj.label}</span>
+              <span class="sep">/</span>
+              <span>${sub?.title || 'Study'}</span>
+            </div>
+            <div class="done-screen">
+              <div class="done-emoji">🎉</div>
+              <h3>Session Complete!</h3>
+              <p>You reviewed all ${total} cards.</p>
+              <div class="done-scores">
+                <div class="done-stat easy"><strong>${easy}</strong><span>Easy</span></div>
+                <div class="done-stat medium"><strong>${medium}</strong><span>Medium</span></div>
+                <div class="done-stat hard"><strong>${hard}</strong><span>Hard</span></div>
+              </div>
+              <div class="done-actions">
+                <button class="ctrl" onclick="restartStudy()">↺ Study again</button>
+                <button class="ctrl" onclick="openSubject('${S.subject}')">← Back to ${subj.label}</button>
+                <button class="ctrl" onclick="goHome()">🏠 Home</button>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const card = S.cards[S.idx];
+      const pct = Math.round((S.idx / total) * 100);
+      const sub = getSubtopic(S.subject, S.topicId, S.subtopicId);
+
+      main.innerHTML = `
+        <div class="area">
+          <div class="breadcrumb">
+            <span class="bc-link" onclick="goHome()">Home</span>
+            <span class="sep">/</span>
+            <span class="bc-link" onclick="openSubject('${S.subject}')">${subj.label}</span>
+            <span class="sep">/</span>
+            <span>${sub?.title || 'Study'}</span>
+          </div>
+          <div class="area-title" style="margin-bottom:1.25rem">${sub?.title || 'Flashcards'}</div>
+
+          <div class="toolbar">
+            <label class="toggle-wrap">
+              <input type="checkbox" id="shuffleTgl" ${S.shuffle ? 'checked' : ''} onchange="toggleShuffle(this.checked)">
+              <span class="toggle-track"></span>
+              🔀 Shuffle
+            </label>
+            <button class="ctrl" onclick="restartStudy()">↺ Restart</button>
+          </div>
+
+          <div class="prog-row">
+            <div class="prog-track">
+              <div class="prog-fill ${colorCls}" style="width:${pct}%"></div>
+            </div>
+            <div class="prog-label">${S.idx + 1} / ${total}</div>
+          </div>
+
+          <div class="scene" onclick="flipCard()">
+            <div class="flip-card ${S.flipped ? 'flipped' : ''}" id="flipCard">
+              <div class="face face-front">
+                <div class="face-top-bar">Question</div>
+                <div class="face-body">
+                  <p>${card.question}</p>
+                </div>
+                <div class="flip-hint"><span class="hint-icon">↩️</span> Click to reveal answer</div>
+              </div>
+              <div class="face face-back ${colorCls}">
+                <div class="face-top-bar">Answer</div>
+                <div class="face-body answer">
+                  <pre class="answer-pre">${card.answer}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rating-panel ${S.flipped ? 'show' : ''}" id="ratingPanel">
+            <span class="rate-lbl">How well did you know this?</span>
+            <div class="rate-btns">
+              <button class="rate-btn easy"   onclick="rateCard('easy')">😊 Easy</button>
+              <button class="rate-btn medium" onclick="rateCard('medium')">🤔 Medium</button>
+              <button class="rate-btn hard"   onclick="rateCard('hard')">😓 Hard</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="ctrl" onclick="prevCard()" ${S.idx === 0 ? 'disabled' : ''}>← Prev</button>
+            <button class="ctrl" onclick="nextCard()">Next →</button>
+            <span class="ctrl-pos">${S.idx + 1} / ${total}</span>
+          </div>
+
+          <div class="kb-hint">
+            <kbd class="kbd">Space</kbd> flip ·
+            <kbd class="kbd">→</kbd> next ·
+            <kbd class="kbd">←</kbd> prev ·
+            <kbd class="kbd">1</kbd> easy &nbsp;
+            <kbd class="kbd">2</kbd> medium &nbsp;
+            <kbd class="kbd">3</kbd> hard
+          </div>
+        </div>
+      `;
+    }
+
+    /* ─── NAVIGATION ───────────────────────────────────────── */
+    function goHome() {
+      Object.assign(S, { view:'home', subject:null, topicId:null, subtopicId:null, cards:[], idx:0, flipped:false });
+      syncSidebar(); renderHome(); syncNav();
+    }
+
+    function openSubject(sk) {
+      Object.assign(S, { view:'subject', subject:sk, topicId:null, subtopicId:null, cards:[], idx:0, flipped:false });
+      syncSidebar(); renderSubjectOverview(sk); syncNav();
+    }
+
+    function openStudy(sk, tid, sid) {
+      const sub = getSubtopic(sk, tid, sid);
+      if (!sub) return;
+      Object.assign(S, {
+        view:'study', subject:sk, topicId:tid, subtopicId:sid,
+        cards: S.shuffle ? shuffle(sub.cards) : [...sub.cards],
+        idx:0, flipped:false, ratings:{}
+      });
+      syncSidebar(); renderStudy(); syncNav();
+    }
+
+    function restartStudy() { openStudy(S.subject, S.topicId, S.subtopicId); }
+
+    function syncNav() {
+      document.querySelectorAll('.nav-pill').forEach(b => b.classList.remove('active'));
+      if (S.subject) {
+        const b = document.querySelector(`.nav-pill[data-key="${S.subject}"]`);
+        if (b) b.classList.add('active');
+      }
+    }
+
+    /* ─── CARD ACTIONS ─────────────────────────────────────── */
+    function flipCard() {
+      S.flipped = !S.flipped;
+      const c = document.getElementById('flipCard');
+      if (c) c.classList.toggle('flipped', S.flipped);
+      const p = document.getElementById('ratingPanel');
+      if (p) p.classList.toggle('show', S.flipped);
+    }
+
+    function nextCard() {
+      if (S.idx < S.cards.length) { S.idx++; S.flipped = false; renderStudy(); }
+    }
+
+    function prevCard() {
+      if (S.idx > 0) { S.idx--; S.flipped = false; renderStudy(); }
+    }
+
+    function rateCard(r) {
+      const card = S.cards[S.idx];
+      if (card) S.ratings[card.id] = r;
+      nextCard();
+    }
+
+    function toggleShuffle(checked) {
+      S.shuffle = checked;
+      if (S.subtopicId) {
+        const sub = getSubtopic(S.subject, S.topicId, S.subtopicId);
+        if (sub) {
+          const rest = sub.cards.slice(S.idx);
+          S.cards = [...sub.cards.slice(0, S.idx), ...(checked ? shuffle(rest) : rest)];
+        }
+      }
+    }
+
+    /* ─── KEYBOARD ─────────────────────────────────────────── */
+    document.addEventListener('keydown', e => {
+      if (S.view !== 'study') return;
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); nextCard(); }
+      else if (e.key === 'ArrowLeft')  { e.preventDefault(); prevCard(); }
+      else if (e.key === '1' && S.flipped) rateCard('easy');
+      else if (e.key === '2' && S.flipped) rateCard('medium');
+      else if (e.key === '3' && S.flipped) rateCard('hard');
+    });
+
+    /* ─── INIT ─────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSidebar();
+      renderHome();
+    });
+  </script>
 </body>
 </html>
