@@ -321,7 +321,11 @@ main {
 }
 
 .subject-card.physics:hover { box-shadow: 0 8px 32px var(--blue-glow); }
-.subject-card.chemistry:hover { box-shadow: 0 8px 32px var(--amber-glow); }
+.subject-card.sinhala_electronics::before { background: linear-gradient(90deg, #0f6e56, #1d9e75); }
+.subject-card.sinhala_electronics:hover { box-shadow: 0 8px 32px rgba(29, 158, 117, 0.2); }
+.subject-card.sinhala_electronics h2 { color: #5dcaa5; }
+
+.sidebar-subject-header.sinhala_electronics { color: #5dcaa5; }
 
 .subject-icon {
   font-size: 2rem;
